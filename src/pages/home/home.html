@@ -1,0 +1,20 @@
+<!--<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Home</ion-title>
+    </ion-navbar>
+</ion-header>-->
+<ion-content padding>
+    <ion-slides #mySlider>
+        <ion-slide *ngFor="let slide of slides, let i=index">
+            <ion-icon [hidden]="!slide.icon" [name]="slide.icon" class="slide-image" color="primary"></ion-icon>
+            <img [hidden]="slide.icon" [src]="slide.image" class="slide-image" />
+            <h2 class="slide-title" [innerHTML]="slide.title"></h2>
+            <p [innerHTML]="slide.description"></p>
+            <p ion-text class="welcome-user" color="primary">Welcome!</p>
+            <button ion-button full (click)="nextSlide()">Next</button>
+        </ion-slide>
+    </ion-slides>
+</ion-content>

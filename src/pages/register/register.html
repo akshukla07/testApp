@@ -1,0 +1,87 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Register</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content class="register-content" text-center>
+    <div class="register-box">
+        <form [formGroup]="registerForm" novalidate>
+            <ion-list>
+                <ion-item>
+                    <ion-label floating>First Name</ion-label>
+                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['firstName'].valid  && registerForm.controls['firstName'].touched" [formControl]="registerForm.controls['firstName']"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['firstName'].valid  && registerForm.controls['firstName'].touched">
+                    <p class="invalid-text">Please enter a valid first name.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Last Name</ion-label>
+                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['lastName'].valid  && registerForm.controls['lastName'].touched" [formControl]="registerForm.controls['lastName']"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['lastName'].valid  && registerForm.controls['lastName'].touched">
+                    <p class="invalid-text">Please enter a valid last name.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Phone Number</ion-label>
+                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['phoneNumber'].valid  && registerForm.controls['phoneNumber'].touched" [formControl]="registerForm.controls['phoneNumber']"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['phoneNumber'].valid  && registerForm.controls['phoneNumber'].touched">
+                    <p class="invalid-text">Please enter a valid last phone number.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Email</ion-label>
+                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['email'].valid  && registerForm.controls['email'].touched" [formControl]="registerForm.controls['email']" type="email"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['email'].valid  && registerForm.controls['email'].touched">
+                    <p class="invalid-text">Please enter a valid email address.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Password</ion-label>
+                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['password'].valid  && registerForm.controls['password'].touched" [formControl]="registerForm.controls['password']" type="password"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
+                    <p class="invalid-text">Password cannot be empty.</p>
+                </ion-item>
+                <ion-item *ngIf="registerForm.controls['password'].hasError('invalidPassword') && !registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
+                    <div [innerHTML]="config.pwdErrMsg"></div>
+                </ion-item>
+                <ion-item>
+                    <ion-label floating>Confirm Password</ion-label>
+                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['passwordConfirm'].valid  && registerForm.controls['passwordConfirm'].touched" [formControl]="registerForm.controls['passwordConfirm']" type="password"></ion-input>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['passwordConfirm'].valid  && registerForm.controls['passwordConfirm'].touched">
+                    <p class="invalid-text">Please confirm your password.</p>
+                </ion-item>
+                <ion-item *ngIf="!passwordsMatch  && registerForm.controls['passwordConfirm'].touched && registerForm.controls['passwordConfirm'].valid">
+                    <p class="invalid-text">Passwords do not match.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label>I agree to the Privacy Policy.</ion-label>
+                    <ion-toggle [formControl]="registerForm.controls['privacyPolicy']" checked="false"></ion-toggle>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['privacyPolicy'].valid  && registerForm.controls['privacyPolicy'].touched">
+                    <p class="invalid-text">Please accept the privacy policy.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label>I agree to the Terms of Service.</ion-label>
+                    <ion-toggle [formControl]="registerForm.controls['termsAgreement']" checked="false"></ion-toggle>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['termsAgreement'].valid  && registerForm.controls['termsAgreement'].touched">
+                    <p class="invalid-text">Please accept the terms of service.</p>
+                </ion-item>
+                <ion-item>
+                    <ion-label>I am at least 13 years of age.</ion-label>
+                    <ion-toggle [formControl]="registerForm.controls['ageConfirm']" checked="false"></ion-toggle>
+                </ion-item>
+                <ion-item *ngIf="!registerForm.controls['ageConfirm'].valid  && registerForm.controls['ageConfirm'].touched">
+                    <p class="invalid-text">Please confirm your age.</p>
+                </ion-item>
+            </ion-list>
+            <ion-row>
+                <ion-col class="signup-col">
+                    <button class="register-btn" ion-button full [disabled]="!registerForm.valid  || !passwordsMatch" (click)="register($event)">Register</button>
+                </ion-col>
+            </ion-row>
+        </form>
+    </div>
+</ion-content>
