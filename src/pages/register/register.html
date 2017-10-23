@@ -36,50 +36,28 @@
                     <p class="invalid-text">Please enter a valid email address.</p>
                 </ion-item>
                 <ion-item>
-                    <ion-label floating>Password</ion-label>
-                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['password'].valid  && registerForm.controls['password'].touched" [formControl]="registerForm.controls['password']" type="password"></ion-input>
+                    <ion-label floating>Address</ion-label>
+                    <ion-textarea class="input-text" [class.invalid]="!registerForm.controls['address'].valid  && registerForm.controls['address'].touched" [formControl]="registerForm.controls['address']"></ion-textarea>
                 </ion-item>
-                <ion-item *ngIf="registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
-                    <p class="invalid-text">Password cannot be empty.</p>
-                </ion-item>
-                <ion-item *ngIf="registerForm.controls['password'].hasError('invalidPassword') && !registerForm.controls['password'].hasError('required') && registerForm.controls['password'].touched">
-                    <div [innerHTML]="config.pwdErrMsg"></div>
+                <ion-item *ngIf="!registerForm.controls['address'].valid  && registerForm.controls['address'].touched">
+                    <p class="invalid-text">Address cannot be empty.</p>
                 </ion-item>
                 <ion-item>
-                    <ion-label floating>Confirm Password</ion-label>
-                    <ion-input class="input-text" [class.invalid]="!registerForm.controls['passwordConfirm'].valid  && registerForm.controls['passwordConfirm'].touched" [formControl]="registerForm.controls['passwordConfirm']" type="password"></ion-input>
-                </ion-item>
-                <ion-item *ngIf="!registerForm.controls['passwordConfirm'].valid  && registerForm.controls['passwordConfirm'].touched">
-                    <p class="invalid-text">Please confirm your password.</p>
-                </ion-item>
-                <ion-item *ngIf="!passwordsMatch  && registerForm.controls['passwordConfirm'].touched && registerForm.controls['passwordConfirm'].valid">
-                    <p class="invalid-text">Passwords do not match.</p>
+                    <ion-label>State</ion-label>
+                    <ion-select [formControl]="registerForm.controls['state']" (ionChange)="changeCity()">
+                        <ion-option *ngFor="let state of getStates(config.cityStates)" [value]="config.cityStates[state].value">{{config.cityStates[state].name}}</ion-option>
+                    </ion-select>
                 </ion-item>
                 <ion-item>
-                    <ion-label>I agree to the Privacy Policy.</ion-label>
-                    <ion-toggle [formControl]="registerForm.controls['privacyPolicy']" checked="false"></ion-toggle>
-                </ion-item>
-                <ion-item *ngIf="!registerForm.controls['privacyPolicy'].valid  && registerForm.controls['privacyPolicy'].touched">
-                    <p class="invalid-text">Please accept the privacy policy.</p>
-                </ion-item>
-                <ion-item>
-                    <ion-label>I agree to the Terms of Service.</ion-label>
-                    <ion-toggle [formControl]="registerForm.controls['termsAgreement']" checked="false"></ion-toggle>
-                </ion-item>
-                <ion-item *ngIf="!registerForm.controls['termsAgreement'].valid  && registerForm.controls['termsAgreement'].touched">
-                    <p class="invalid-text">Please accept the terms of service.</p>
-                </ion-item>
-                <ion-item>
-                    <ion-label>I am at least 13 years of age.</ion-label>
-                    <ion-toggle [formControl]="registerForm.controls['ageConfirm']" checked="false"></ion-toggle>
-                </ion-item>
-                <ion-item *ngIf="!registerForm.controls['ageConfirm'].valid  && registerForm.controls['ageConfirm'].touched">
-                    <p class="invalid-text">Please confirm your age.</p>
+                    <ion-label>City</ion-label>
+                    <ion-select [formControl]="registerForm.controls['city']">
+                        <ion-option *ngFor="let city of getCities()" [value]="city">{{city}}</ion-option>
+                    </ion-select>
                 </ion-item>
             </ion-list>
             <ion-row>
                 <ion-col class="signup-col">
-                    <button class="register-btn" ion-button full [disabled]="!registerForm.valid  || !passwordsMatch" (click)="register($event)">Register</button>
+                    <button class="register-btn" ion-button full [disabled]="!registerForm.valid" (click)="register($event)">Register</button>
                 </ion-col>
             </ion-row>
         </form>

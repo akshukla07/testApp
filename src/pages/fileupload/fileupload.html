@@ -1,0 +1,25 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>File Upload</ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content text-center>
+    <ion-row>
+        <ion-col class="signup-col">
+            <button (click)="saveFile()" ion-button full>Upload Image</button>
+        </ion-col>
+    </ion-row>
+    <ion-row *ngIf="showDocBrowsingOption">
+        <ion-col class="signup-col">
+            <button (click)="checkPermissionsAndBrowse()" ion-button full>Upload Resume</button>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col class="signup-col">
+            <button (click)="recordVoice()" ion-button full>Record Audio</button>
+        </ion-col>
+    </ion-row>
+</ion-content>
