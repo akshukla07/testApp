@@ -26,6 +26,7 @@ export class Register {
             address: ["", [Validators.required, ValidateWhiteSpace]],
             state: ["", [Validators.required, ValidateWhiteSpace]],
             city: ["", [Validators.required, ValidateWhiteSpace]],
+            password: ["", [Validators.required, ValidateWhiteSpace]],
         });
 
     }
@@ -50,12 +51,13 @@ export class Register {
         // validate input
         let formData = {
             email: this.registerForm.value.email.trim(),
-            firstName: this.registerForm.value.firstName.trim(),
-            lastName: this.registerForm.value.lastName.trim(),
-            phoneNumber: this.registerForm.value.phoneNumber.trim(),
+            first_name: this.registerForm.value.firstName.trim(),
+            last_name: this.registerForm.value.lastName.trim(),
+            phone: this.registerForm.value.phoneNumber.trim(),
             address: this.registerForm.value.address.trim(),
             state: this.config.cityStates[this.registerForm.value.state.trim()].name,
-            city: this.registerForm.value.city.trim()
+            city: this.registerForm.value.city.trim(),
+            password: this.registerForm.value.password.trim()
         }
 
         this.avcUi.showLoading();
@@ -64,7 +66,7 @@ export class Register {
             this.avcUi.showDialog("The registration information provided is invalid.", "Invalid input");
             return;
         }
-        if (formData.firstName.length == 0 || formData.lastName.length == 0) {
+        if (formData.first_name.length == 0 || formData.last_name.length == 0) {
             this.avcUi.showDialog("Please enter valid first and last name.", "Invalid input");
             return;
         }
@@ -80,17 +82,22 @@ export class Register {
         });
 
         this.http.request(this.config.uri+'user-register', options).subscribe(
-            res => {
+            (res:any) => {
                 res = res.json();
                 console.log(res);
                 this.avcUi.dismissLoading();
+                if(res.status != 'error'){
+                    this.avcUi.showToast(res.msg, res.status);
+                    this.navCtrl.setRoot(Fileupload, { user: res.user });
+                }
+                else {
+                    this.avcUi.showToast(res.msg, res.status);
+                }
             },
             err => {
                 console.log(err);
                 this.avcUi.dismissLoading();
             }
         );
-
-        this.navCtrl.setRoot(Fileupload);
     }
 }

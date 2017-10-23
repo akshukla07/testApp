@@ -1,5 +1,5 @@
 import { Component, Injector } from '@angular/core';
-import { NavController, AlertController, Platform, ModalController } from 'ionic-angular';
+import { NavController, AlertController, Platform, ModalController, NavParams } from 'ionic-angular';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -17,13 +17,15 @@ import { FileBrowser } from '../fileBrowser/fileBrowser';
 export class Fileupload {
 
     private images = [];
+    private user: any;
     private showDocBrowsingOption: boolean = true; // set to true to show document browsing option
     constructor(injector: Injector, public platform: Platform, private transfer: FileTransfer, private file: File, 
         public avcUi: AvcUi,public config: Config, public alertCtrl: AlertController, private diagnostic: Diagnostic, 
-        private camera: Camera, public modalCtrl: ModalController, private mediaCapture: MediaCapture) {
+        private camera: Camera, public modalCtrl: ModalController, private mediaCapture: MediaCapture,
+        private navParams: NavParams) {
         
         this.platform.ready().then(()=>{
-            
+            this.user = navParams.data.user;
         });
     }
 
@@ -99,12 +101,17 @@ export class Fileupload {
             "fileName": filename,
             "mimeType": filetype,
             "headers": {
-                "userid": '1'
+                "userid": this.user.id
             }
         }
 
+        let url = 'upload-file';
+
+        if(filetype == 'image/jpeg')
+            url = 'upload-profilepic';
+        
         // this.file.applicationDirectory + "www/assets/logo.png"
-        this.transfer.create().upload(imageUri, this.config.uri+'/api/Objects', options).then(
+        this.transfer.create().upload(imageUri, this.config.uri+url, options).then(
             (data) => {
                 this.avcUi.dismissLoading();
                 let res = JSON.parse(data.response);
